@@ -1,0 +1,21 @@
+<div class="table-row">
+  <div>
+    {{ transaction.contractorName }}
+  </div>
+  <div class="text-center">
+    {{ formatAccountNumber(transaction.accountNumber) }}
+  </div>
+  <div class="text-right">
+    {{ formatCurrency(transaction.amountPaid) }}
+  </div>
+  <div class="text-center">
+    <button
+      (click)="onActionClick()"
+      [class]="getButtonClasses()"
+      [disabled]="buttonState === 'disabled'"
+      [attr.aria-label]="getAriaLabel()"
+    >
+      {{ getButtonText() }}
+    </button>
+  </div>
+</div>

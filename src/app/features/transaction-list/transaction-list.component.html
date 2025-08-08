@@ -1,0 +1,58 @@
+<div class="home-container page-container">
+  <!-- Cart Button (Top Right) -->
+  <div class="cart-button-container">
+    <a routerLink="/cart" class="cart-button btn" aria-label="View cart">
+      {{ buttonLabels.CART }} ({{ cartStore.cartCount() }})
+    </a>
+  </div>
+
+  <!-- Transaction Cart Title -->
+  <div class="page-title">
+    <h1 class="text-xl sm:text-2xl lg:text-3xl">{{ appTitles.MAIN }}</h1>
+  </div>
+
+  <!-- Transactions List -->
+  <div class="transactions-container">
+    <!-- Mobile Cards View (visible on small screens) -->
+    <div class="block md:hidden space-y-4">
+      <app-transaction-card
+        *ngFor="
+          let transaction of cartStore.transactions();
+          trackBy: trackByTransactionId
+        "
+        [transaction]="transaction"
+        actionType="add"
+        [buttonState]="cartStore.isInCart(transaction.id) ? 'added' : 'normal'"
+        (actionClick)="addToCart($event)"
+      >
+      </app-transaction-card>
+    </div>
+
+    <!-- Desktop Table View (hidden on small screens) -->
+    <div class="hidden md:block">
+      <!-- Table Headers -->
+      <div class="table-header">
+        <div>{{ fieldLabels.CONTRACTOR_NAME }}</div>
+        <div class="text-center">{{ fieldLabels.ACCOUNT_NUMBER }}</div>
+        <div class="text-right">{{ fieldLabels.AMOUNT_PAID }}</div>
+        <div></div>
+      </div>
+
+      <app-transaction-row
+        *ngFor="
+          let transaction of cartStore.transactions();
+          trackBy: trackByTransactionId
+        "
+        [transaction]="transaction"
+        actionType="add"
+        [buttonState]="cartStore.isInCart(transaction.id) ? 'added' : 'normal'"
+        (actionClick)="addToCart($event)"
+      >
+      </app-transaction-row>
+    </div>
+
+    <div *ngIf="cartStore.transactions().length === 0" class="empty-state">
+      {{ emptyStateMessages.NO_TRANSACTIONS }}
+    </div>
+  </div>
+</div>

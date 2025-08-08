@@ -1,0 +1,84 @@
+<div class="cart-container page-container">
+  <!-- Navigation -->
+  <div class="navigation">
+    <a routerLink="/" class="overview-button btn" aria-label="Back to overview">
+      {{ navigationLabels.TO_OVERVIEW }}
+    </a>
+  </div>
+
+  <!-- Empty state -->
+  <div *ngIf="cartStore.cartCount() === 0" class="cart-content">
+    <div class="empty-cart empty-state large">
+      <div class="empty-icon text-4xl sm:text-6xl">🛒</div>
+      <h2 class="empty-title text-lg sm:text-xl lg:text-2xl">
+        {{ emptyCartMessages.TITLE }}
+      </h2>
+      <p class="empty-subtitle text-sm sm:text-base">
+        {{ emptyCartMessages.SUBTITLE }}
+      </p>
+      <a routerLink="/" class="shop-now-button btn inline-block mt-4">{{
+        navigationLabels.BROWSE_TRANSACTIONS
+      }}</a>
+    </div>
+  </div>
+
+  <!-- Cart Items -->
+  <div *ngIf="cartStore.cartCount() > 0" class="cart-content">
+    <!-- Mobile Cards View (visible on small screens) -->
+    <div class="block md:hidden space-y-4">
+      <app-transaction-card
+        *ngFor="
+          let transaction of cartStore.cartTransactions();
+          trackBy: trackByTransactionId
+        "
+        [transaction]="transaction"
+        actionType="delete"
+        (actionClick)="removeFromCart($event)"
+      >
+      </app-transaction-card>
+
+      <!-- Mobile Total -->
+      <div class="bg-gray-50 rounded-lg p-4 mt-6">
+        <div class="text-right">
+          <span class="text-lg font-bold text-gray-900"
+            >{{ fieldLabels.TOTAL_PREFIX }}
+            {{ formatCurrency(cartStore.cartTotal()) }}</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- Desktop Table View (hidden on small screens) -->
+    <div class="hidden md:block">
+      <!-- Column Headers -->
+      <div class="cart-header table-header">
+        <div>{{ tableHeaders.NAME }}</div>
+        <div class="text-center">{{ tableHeaders.ACCOUNT_NUMBER }}</div>
+        <div class="text-right">{{ tableHeaders.AMOUNT }}</div>
+        <div></div>
+      </div>
+
+      <!-- Cart Items -->
+      <app-transaction-row
+        *ngFor="
+          let transaction of cartStore.cartTransactions();
+          trackBy: trackByTransactionId
+        "
+        [transaction]="transaction"
+        actionType="delete"
+        (actionClick)="removeFromCart($event)"
+      ></app-transaction-row>
+
+      <!-- Desktop Total -->
+      <div class="cart-total table-grid">
+        <div></div>
+        <div></div>
+        <div class="text-right">
+          {{ fieldLabels.TOTAL_PREFIX }}
+          {{ formatCurrency(cartStore.cartTotal()) }}
+        </div>
+        <div></div>
+      </div>
+    </div>
+  </div>
+</div>

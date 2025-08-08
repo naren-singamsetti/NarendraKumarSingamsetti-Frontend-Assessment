@@ -1,0 +1,39 @@
+.home-container {
+  // Custom styles specific to transaction-list that aren't in global classes
+  .cart-button-container {
+    text-align: right;
+    margin-bottom: 1rem;
+
+    .cart-button {
+      min-width: 80px;
+
+      @media (max-width: 430px) {
+        min-width: 90px;
+      }
+    }
+  }
+
+  .transactions-container {
+    max-width: 100%;
+
+    .loading-state {
+      .loading-text {
+        color: #6b7280;
+        font-size: 1rem;
+
+        @media (max-width: 430px) {
+          font-size: 0.875rem;
+        }
+      }
+    }
+
+    .empty-state {
+      color: #6b7280;
+      font-size: 1.125rem;
+
+      @media (max-width: 430px) {
+        font-size: 1rem;
+      }
+    }
+  }
+}
